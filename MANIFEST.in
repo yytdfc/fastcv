@@ -1,0 +1,3 @@
+global-exclude *.pyc .cache dist build test
+include README.md LICENSE
+recursive-include *

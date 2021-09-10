@@ -1,0 +1,16 @@
+language: python
+cache: pip
+python:
+  - "3.6"
+  - "2.7"
+# services:
+  # - some-server
+install:
+  - pip install tox-travis coverage coveralls
+  - pip install -e .
+script:
+  - tox
+  - coverage run --source=cv_utils -m pytest
+  - coverage report -m
+after_success:
+  - coveralls
