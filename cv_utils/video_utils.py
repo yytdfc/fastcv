@@ -7,7 +7,7 @@ from .environment import ENV
 
 
 class VideoDumper:
-    def __init__(self, path, monit=False, fps=30, dump_mode="video", codec="", crf=17):
+    def __init__(self, path, monit=False, fps=30, dump_mode="video", codec="", crf=17, quality=100):
         """
         dump_mode:
             video: direct save video in path
@@ -30,9 +30,9 @@ class VideoDumper:
                 self.codec = "mp4v"
         else:
             self.codec = codec
-        print(self.codec)
         self.fps = fps
         self.crf = crf
+        self.quality = quality
 
     def __del__(self):
         if self.dumper is None:
@@ -41,12 +41,12 @@ class VideoDumper:
             del self.dumper
             if ENV.is_linux() and self.codec == "h264":
                 os.system(
-                    f"ffmpeg -v quiet -i self.path -codec h264 -crf {self.crf} -profile:v high -pix_fmt yuv420p -y {ENV.tmp_dir}/{self.path}.mp4"
+                    f"ffmpeg -v quiet -i {self.path} -codec h264 -crf {self.crf} -profile:v high -pix_fmt yuv420p -r {self.fps} -y {ENV.tmp_dir}/{self.path}.mp4"
                 )
                 os.system(f"mv {ENV.tmp_dir}/{self.path}.mp4 {self.path}")
         elif self.dump_mode == "png2video":
             os.system(
-                f"ffmpeg -v quiet -i {self.dir}/%05d.{self.surfix} -codec h264 -crf {self.crf} -profile:v high -pix_fmt yuv420p -y {self.path}"
+                f"ffmpeg -v quiet -i {self.dir}/%05d.{self.surfix} -codec h264 -crf {self.crf} -profile:v high -pix_fmt yuv420p -r {self.fps} -y {self.path}"
             )
             os.system(f"rm -rf {self.dir}")
 
@@ -58,7 +58,7 @@ class VideoDumper:
                 self.dumper = cv2.VideoWriter(
                     self.path, fourcc, self.fps, img.shape[1::-1]
                 )
-                self.dumper.set(cv2.VIDEOWRITER_PROP_QUALITY, 100)
+                self.dumper.set(cv2.VIDEOWRITER_PROP_QUALITY, self.quality)
             else:
                 if self.dump_mode.endswith("video"):
                     self.dir = f"{ENV.tmp_dir}/{self.path}.dir"
@@ -76,7 +76,7 @@ class VideoDumper:
             cv2.imwrite(
                 f"{self.dir}/{self.idx:05d}.{self.surfix}",
                 img,
-                [int(cv2.IMWRITE_JPEG_QUALITY), 100],
+                [int(cv2.IMWRITE_JPEG_QUALITY), self.quality],
             )
             self.idx += 1
         if self.monit:
@@ -106,6 +106,14 @@ class VideoLoader:
 
     def __len__(self):
         return int(self.loader.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    def seek(self, idx):
+        self.loader.set(cv2.CAP_PROP_POS_FRAMES, idx)
+        return self.read()
+
+    def random_pick(self):
+        idx = np.random.randint(0, self.__len__())
+        return self.seek(idx)
 
     def read(self):
         if self.loader is None:

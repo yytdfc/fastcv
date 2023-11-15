@@ -6,14 +6,16 @@ Document:
 
 """
 
-from .video_utils import VideoLoader, VideoDumper
 from .draw_text import draw_text
 from .resize import resize
+from .concat import concat
+from .concat import grid_concat
+from .view import view
 
 
 __all__ = [
-    "VideoLoader",
-    "VideoDumper",
     "draw_text",
     "resize",
+    "concat",
+    "grid_concat",
 ]
