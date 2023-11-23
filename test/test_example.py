@@ -4,7 +4,7 @@
 import cv2
 
 from tqdm import tqdm
-from cv_utils import VideoLoader, VideoDumper, draw_text, resize
+from fastcv import VideoLoader, VideoDumper, draw_text, resize
 
 
 def test_videos():

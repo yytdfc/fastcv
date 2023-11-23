@@ -10,7 +10,7 @@ install:
   - pip install -e .
 script:
   - tox
-  - coverage run --source=cv_utils -m pytest
+  - coverage run --source=fastcv -m pytest
   - coverage report -m
 after_success:
   - coveralls

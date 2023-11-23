@@ -4,14 +4,14 @@ from PIL import Image
 
 
 _PIL_INTERPOLATION_METHODS = {
-    'nearest': Image.NEAREST,
-    'bilinear': Image.BILINEAR,
-    'bicubic': Image.BICUBIC,
-    'lanczos': Image.LANCZOS,
-    'linear': Image.LINEAR,
-    'box': Image.BOX,
-    'hamming': Image.HAMMING,
-    'cubic': Image.CUBIC,
+    'nearest': Image.Resampling.NEAREST,
+    'bilinear': Image.Resampling.BILINEAR,
+    'bicubic': Image.Resampling.BICUBIC,
+    'lanczos': Image.Resampling.LANCZOS,
+    'linear': Image.Resampling.BILINEAR,
+    'box': Image.Resampling.BOX,
+    'hamming': Image.Resampling.HAMMING,
+    'cubic': Image.Resampling.BICUBIC,
 }
 
 _CV2_INTERPOLATION_METHODS = {

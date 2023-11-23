@@ -95,8 +95,8 @@ if __name__ == "__main__":
     # out = swf(im)
     out = cv2.GaussianBlur(im,(3,3),sigmaX=4)
     # out = im
-    import cv_utils
-    out = cv_utils.resize(out, scale=0.5)
+    import fastcv
+    out = fastcv.resize(out, scale=0.5)
     # out = swf(out)
     cv2.imwrite("out.png", out)
     os.system("open out.png")

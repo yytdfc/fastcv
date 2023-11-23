@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
-PKG_NAME = 'cv_utils'
+PKG_NAME = 'fastcv'
 
-cv_utils = __import__(PKG_NAME)
+fastcv = __import__(PKG_NAME)
 
 
 setup(
     name=PKG_NAME,
-    version=cv_utils.__version__,
-    description=cv_utils.__description__,
-    long_description=open('./README.rst').read(),
+    version=fastcv.__version__,
+    description=fastcv.__description__,
+    long_description=open('./README.md').read(),
     maintainer='yytdfc',
     maintainer_email='fuchen@foxmail.com',
     keywords=[],

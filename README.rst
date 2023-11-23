@@ -1,3 +1,0 @@
-Python Example Package
-=====
-
